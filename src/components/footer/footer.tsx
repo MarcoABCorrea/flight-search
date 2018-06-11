@@ -11,7 +11,7 @@ export default class Footer extends React.Component<FooterPropsInterface, Footer
   constructor() {
     super();
 
-    const startingYear = 2017;
+    const startingYear = 2018;
     const currentYear = new Date().getFullYear();
     const copyright = startingYear === currentYear ? currentYear.toString() : `${startingYear} - ${currentYear}`;
 
@@ -25,7 +25,7 @@ export default class Footer extends React.Component<FooterPropsInterface, Footer
       <footer className='w-100'>
         <div className='navbar-inverse bg-inverse fixed-bottom'>
           <p className='text-muted text-center my-2'> &copy; {this.state.copyright}
-            <a href='http://www.kenzan.com/'> Kenzan, LLC</a>
+            <a href='https://github.com/MarcoABCorrea/'> Marco Aurélio Batista Corrêa</a>
           </p>
         </div>
       </footer>
