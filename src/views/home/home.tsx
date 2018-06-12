@@ -2,17 +2,27 @@ import 'font-awesome/css/font-awesome.css';
 import * as React from 'react';
 
 import './home.scss';
-import ContactService, { ContactInterface } from '../../services/contact.service';
-import ContactsList from '../../components/contacts-list/contacts-list';
-import ContactsListForm from '../../components/contacts-list-form/contacts-list-form';
-import GravatarService from '../../services/gravatar.service';
+// import ContactService, { ContactInterface } from '../../services/contact.service';
+// import ContactsList from '../../components/contacts-list/contacts-list';
+// import ContactsListForm from '../../components/contacts-list-form/contacts-list-form';
+// import GravatarService from '../../services/gravatar.service';
+
+import axios from 'axios';
+// import * as airports from '../../airports.json';
+import Search from '../../components/search/search';
+// import airports from '../../airports.json';
+// import * as airports from '../../airports.json';
+// let airports = require('../../airports.json');
+
+
 
 interface HomeStateInterface {
   isFormOpen: boolean;
+  token: string;
+  url: string;
 }
 
 interface HomePropsInterface {
-  contacts: ContactInterface[];
   onListUpdate: Function;
   currentIndex?: number;
 }
@@ -23,9 +33,24 @@ export default class Home extends React.Component<HomePropsInterface, HomeStateI
     super(props);
 
     this.state = {
-      isFormOpen: false
+      isFormOpen: false,
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtYXhtaWxoYXMuY29tLmJyIiwiaWF0IjoxNTA5MTIwMTAxLCJleHAiOjE1MTA0MTYxMDEsImF1ZCI6InRlc3RlLWZyb250ZW5kIiwic3ViIjoidGVzdGUtZnJvbnRlbmQiLCJlbnYiOiJobWcifQ.nM6wMem6dxF0CcDlig5iA9az5ZfmbXDjq1e4ypZXwjU',
+      url: 'https://flight-price-hmg.maxmilhas.com.br'
     };
+
+    // console.log('home ', airports);
+    // this.getAirports();
   }
+
+  // private getAirports(): void {
+  //   console.log('fps');
+  //   axios.get(this.state.url, {'headers': { headers: {"Authorization" : `Bearer ${this.state.token}`} })
+  //   .then(airports => {
+  //     // this.setState({ marco });
+  //     console.log(airports);
+  //   })
+  //   .catch(err => console.log(err));
+  // }
 
   private openForm(): void {
     this.setState({
@@ -33,97 +58,14 @@ export default class Home extends React.Component<HomePropsInterface, HomeStateI
     });
   }
 
-  private cancelNewContact(): void {
-    this.setState({
-      isFormOpen: false
-    });
-  }
-
-  private updateContacts(contacts: ContactInterface[], index: number): void {
-    this.props.onListUpdate(contacts, index);
-  }
-
-  private setContacts(contact: ContactInterface): void {
-    const newContacts = [...this.props.contacts, contact];
-    this.props.onListUpdate(newContacts, contact.id);
-    this.setState({
-      isFormOpen: false
-    });
-  }
-
-  private onNewContactSubmit(contact: ContactInterface): void {
-    contact.id = this.props.contacts.length;
-
-    if (contact.email) {
-      GravatarService.getAvatar(contact.email)
-        .then((url: string) => {
-          contact.image = url;
-          this.setContacts(contact);
-        })
-        .catch(e => {
-          console.error(e);
-          this.setContacts(contact);
-        });
-    } else {
-      this.setContacts(contact);
-    }
-  }
-
-  private selectContact(index: number): void {
-    this.updateContacts(this.props.contacts, index);
-  }
-
-  private renderContactCard (contact: ContactInterface): JSX.Element {
-    if (contact) {
-      return (
-        <div className='card'>
-          <div className='card-block'>
-            <h2 className='card-title'>{ContactService.buildName(contact)}</h2>
-          </div>
-          <ul className='list-group list-group-flush'>
-            <li className='list-group-item'>
-              <span className='fa fa-phone text-muted c-info mr-1' data-toggle='tooltip' title={contact.phone}></span>
-              <span className='visible-xs'> <span className='text-muted phone'>{ contact.phone}</span></span>
-            </li>
-            <li className='list-group-item'>
-              <span className='fa fa-comments text-muted c-info mr-1' data-toggle='tooltip' title={contact.email}></span>
-              <span className='visible-xs'> <span className='text-muted email'>{ contact.email}</span></span>
-            </li>
-          </ul>
-        </div>
-      );
-    }
-  }
-
   render(): JSX.Element {
-    const contacts: ContactInterface[] = this.props.contacts;
-    const currentIndex: number = this.props.currentIndex;
-
+    //const contacts: ContactInterface[] = this.props.contacts;
+    //const currentIndex: number = this.props.currentIndex;
+    //this.state.marco = 'marco';
     return (
       <div className='container home'>
         {
-          !this.state.isFormOpen &&
-          <div>
-            <div className='col-12 text-center'>
-              <button className='btn btn-success' onClick={this.openForm.bind(this)}>Add contact</button>
-            </div>
-            <div className='col-12 col-md-6 col-lg-4 text-center d-inline-block'>
-              {
-                <ContactsList
-                  contacts={contacts}
-                  activeContactIndex={currentIndex}
-                  clickHandler={this.selectContact.bind(this)}
-                />
-              }
-            </div>
-             <div className='col-md-6 col-lg-8 d-inline-block hidden-sm-down h-75'>
-               { this.renderContactCard(contacts[currentIndex]) }
-             </div>
-          </div>
-        }
-        {
-          this.state.isFormOpen &&
-          <ContactsListForm onCancel={this.cancelNewContact.bind(this)} onSubmit={this.onNewContactSubmit.bind(this)}/>
+          <Search></Search>
         }
       </div>
     );

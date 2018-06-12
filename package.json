@@ -1,7 +1,7 @@
 {
   "name": "flight-search",
   "version": "1.0.0",
-  "description": "A sample project showcasing Yarn, webpack and TypeScript with React for the Linux.com article series.",
+  "description": "Flight search project.",
   "main": "src/index.js",
   "scripts": {
     "build": "npm run clean && npm run lint && webpack --config ./webpack.config.prod.js -p",
@@ -14,14 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kenzanlabs/react-webpack-stack.git"
+    "url": "https://github.com/MarcoABCorrea/flight-search"
   },
   "keywords": [
-    "kenzanlabs"
+    "marcoabcorrea"
   ],
-  "author": "rhernandez@kenzan.com",
+  "author": "marcoabcorrea@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "4.0.0-alpha.6",
     "font-awesome": "^4.7.0",
     "jsonp": "^0.2.1",
